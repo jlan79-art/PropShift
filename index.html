@@ -232,6 +232,81 @@ section{padding:72px 16px}
 .featured-grid{grid-template-columns:1fr 1fr}
 .prop-row-mid{grid-template-columns:1fr}
 }
+
+/* ── TOP PICKS SWIPE CARDS ── */
+.top-picks-section{background:var(–bg);padding:60px 0 40px;border-bottom:1px solid var(–border)}
+.top-picks-header{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.top-picks-title{font-family:var(–display);font-size:clamp(24px,5vw,40px);font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.top-picks-date{font-family:var(–mono);font-size:11px;letter-spacing:2px;color:var(–muted);text-transform:uppercase;margin-top:4px}
+.top-picks-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tpf-btn{font-family:var(–mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid var(–border);background:transparent;color:var(–muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.tpf-btn:hover{border-color:var(–accent);color:var(–accent)}
+.tpf-btn.active{background:var(–accent);color:#000;border-color:var(–accent);font-weight:700}
+
+/* Swipe track */
+.swipe-track-wrap{position:relative;overflow:hidden}
+.swipe-track{display:flex;gap:16px;padding:8px 24px 20px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.swipe-track::-webkit-scrollbar{display:none}
+
+/* Swipe card */
+.pick-card{flex:0 0 280px;scroll-snap-align:start;background:var(–bg2);border:1px solid var(–border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s,box-shadow .2s;display:flex;flex-direction:column;gap:12px}
+.pick-card:hover{border-color:var(–border2);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.pick-card.fire{border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.03)}
+.pick-card.bolt{border-color:rgba(240,180,41,.2);background:rgba(240,180,41,.02)}
+.pick-card.star{border-color:rgba(59,158,255,.2);background:rgba(59,158,255,.02)}
+.pick-card-accent{position:absolute;top:0;left:0;right:0;height:2px}
+.pick-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.pick-card-player{font-family:var(–display);font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;line-height:1.1}
+.pick-card-badge{font-size:20px;flex-shrink:0}
+.pick-card-stat{font-family:var(–display);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(–accent)}
+.pick-card-matchup{font-family:var(–mono);font-size:10px;letter-spacing:1px;color:var(–muted);text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.pick-card-matchup .vs{color:var(–border2)}
+
+/* Conviction bar */
+.conviction-wrap{display:flex;flex-direction:column;gap:5px}
+.conviction-top{display:flex;align-items:center;justify-content:space-between}
+.conviction-label{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted)}
+.conviction-pct{font-family:var(–display);font-size:18px;font-weight:800;letter-spacing:.5px}
+.conviction-bar-bg{background:var(–border);height:4px;border-radius:2px;overflow:hidden}
+.conviction-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+
+/* Why */
+.pick-card-why{font-size:12px;color:var(–muted2);line-height:1.55;font-weight:300}
+.pick-card-trends{display:flex;gap:6px;flex-wrap:wrap}
+.trend-tag{font-size:13px}
+
+/* CTA */
+.pick-card-cta{margin-top:auto;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:6px;padding:10px;font-family:var(–display);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(–accent);cursor:pointer;transition:all .2s;text-align:center}
+.pick-card-cta:hover{background:rgba(0,229,160,.15)}
+.pick-card-ev{font-family:var(–mono);font-size:10px;letter-spacing:1px;padding:2px 8px;border-radius:3px;align-self:flex-start}
+
+/* Scroll hint */
+.swipe-hint{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:8px}
+.swipe-hint-text{font-family:var(–mono);font-size:10px;letter-spacing:1px;color:var(–muted);text-transform:uppercase}
+.swipe-dots{display:flex;gap:4px}
+.swipe-dot{width:6px;height:6px;border-radius:50%;background:var(–border2);transition:background .2s}
+.swipe-dot.active{background:var(–accent)}
+
+/* See All toggle */
+.see-all-wrap{max-width:900px;margin:20px auto 0;padding:0 24px}
+.see-all-btn{width:100%;background:transparent;border:1px solid var(–border);border-radius:8px;padding:14px;font-family:var(–display);font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(–muted2);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.see-all-btn:hover{border-color:var(–accent);color:var(–accent)}
+.see-all-chevron{transition:transform .3s;font-size:12px}
+.see-all-chevron.open{transform:rotate(180deg)}
+
+/* Full props table */
+.full-props-wrap{max-width:900px;margin:0 auto;padding:0 24px;overflow:hidden;transition:max-height .4s ease}
+.full-props-inner{padding-top:20px}
+
+/* Loading skeleton cards */
+.pick-card-skeleton{flex:0 0 280px;scroll-snap-align:start;background:var(–bg2);border:1px solid var(–border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.skel{background:rgba(255,255,255,.05);border-radius:4px;animation:shimmer 1.4s infinite}
+
+@media(max-width:600px){
+.pick-card{flex:0 0 260px}
+.top-picks-filters{display:none}
+}
+
 </style>
 
 <meta name="keywords" content="player props today, prop betting, best props today, EV betting, Kelly criterion, NBA props, NFL props, MLB props, NHL props, free prop picks, sports betting AI">
@@ -299,54 +374,64 @@ section{padding:72px 16px}
   </div>
 </div>
 
-<!-- FEATURED PICK OF THE DAY -->
+<!-- TOP PICKS -->
 
-<div class="featured-section z1" id="featured">
-  <div class="featured-inner">
-    <div class="featured-label"><span class="live-dot"></span>Featured Pick of the Day &mdash; Highest EV Prop</div>
-    <div class="featured-card" id="featured-card">
-      <div class="featured-card-header">
-        <span class="featured-card-title"><span class="live-dot"></span>PROP SNIPER &mdash; TOP EDGE TODAY</span>
-        <span id="featured-sport-badge" style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Loading&hellip;</span>
-      </div>
-      <div class="featured-card-body" id="featured-body">
-        <!-- Skeleton -->
-        <div class="featured-skeleton" style="height:44px;width:320px;margin-bottom:8px"></div>
-        <div class="featured-skeleton" style="height:14px;width:200px;margin-bottom:28px"></div>
-        <div class="featured-grid">
-          <div class="featured-skeleton" style="height:70px"></div>
-          <div class="featured-skeleton" style="height:70px"></div>
-          <div class="featured-skeleton" style="height:70px"></div>
-          <div class="featured-skeleton" style="height:70px"></div>
-        </div>
-        <div class="featured-skeleton" style="height:5px;margin-bottom:20px"></div>
-        <div class="featured-skeleton" style="height:52px"></div>
-      </div>
+<div class="top-picks-section z1" id="featured">
+  <div class="top-picks-header">
+    <div>
+      <div class="top-picks-title">Today's Top Props</div>
+      <div class="top-picks-date" id="picks-date">Loading&hellip;</div>
+    </div>
+    <div class="top-picks-filters">
+      <button class="tpf-btn active" onclick="setTopFilter('all',this)">All Props</button>
+      <button class="tpf-btn" onclick="setTopFilter('bet',this)">&#x1F525; Top Picks</button>
+      <button class="tpf-btn" onclick="setTopFilter('nba',this)">NBA</button>
+      <button class="tpf-btn" onclick="setTopFilter('nfl',this)">NFL</button>
+      <button class="tpf-btn" onclick="setTopFilter('mlb',this)">MLB</button>
+      <button class="tpf-btn" onclick="setTopFilter('nhl',this)">NHL</button>
     </div>
   </div>
-</div>
 
-<!-- LIVE PROPS -->
+  <!-- SWIPE CARDS -->
 
-<div class="props-section z1" id="props">
-  <div class="props-inner">
-    <div class="props-header">
-      <div class="props-title">Live Props</div>
-      <div class="props-controls" id="sport-controls">
-        <button class="sport-btn active" data-sport="basketball_nba" onclick="switchSport(this)">NBA</button>
-        <button class="sport-btn" data-sport="americanfootball_nfl" onclick="switchSport(this)">NFL</button>
-        <button class="sport-btn" data-sport="baseball_mlb" onclick="switchSport(this)">MLB</button>
-        <button class="sport-btn" data-sport="icehockey_nhl" onclick="switchSport(this)">NHL</button>
+  <div class="swipe-track-wrap">
+    <div class="swipe-track" id="swipe-track">
+      <!-- skeleton -->
+      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:160px"></div><div class="skel" style="height:16px;width:120px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
+      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:140px"></div><div class="skel" style="height:16px;width:110px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
+      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:170px"></div><div class="skel" style="height:16px;width:100px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
+      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:150px"></div><div class="skel" style="height:16px;width:130px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
+      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:155px"></div><div class="skel" style="height:16px;width:115px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
+    </div>
+  </div>
+
+  <div class="swipe-hint">
+    <span class="swipe-hint-text">&#x2190; Swipe for more</span>
+    <div class="swipe-dots" id="swipe-dots"></div>
+  </div>
+
+  <!-- SEE ALL TOGGLE -->
+
+  <div class="see-all-wrap">
+    <button class="see-all-btn" onclick="toggleFullProps(this)">
+      <span>See All Props</span>
+      <span class="see-all-chevron" id="see-all-chev">&#x25be;</span>
+    </button>
+  </div>
+
+  <!-- FULL PROPS LIST (collapsed by default) -->
+
+  <div class="full-props-wrap" id="full-props-wrap" style="display:none">
+    <div class="full-props-inner">
+      <div class="props-filter" style="margin-bottom:16px">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('bet',this)">&#x1F7E2; Bet</button>
+        <button class="filter-btn" onclick="setFilter('pos',this)">+EV Only</button>
+        <button class="filter-btn" onclick="setFilter('skip',this)">&#x1F534; Skip</button>
       </div>
+      <div class="props-status" id="props-status"><span class="spinner"></span>&nbsp;Loading&hellip;</div>
+      <div id="props-list"></div>
     </div>
-    <div class="props-filter">
-      <button class="filter-btn active" onclick="setFilter('all',this)">All Props</button>
-      <button class="filter-btn" onclick="setFilter('bet',this)">&#x1F7E2; Bet</button>
-      <button class="filter-btn" onclick="setFilter('pos',this)">+EV Only</button>
-      <button class="filter-btn" onclick="setFilter('skip',this)">&#x1F534; Skip</button>
-    </div>
-    <div class="props-status" id="props-status"><span class="spinner"></span>&nbsp;Fetching live props&hellip;</div>
-    <div id="props-list"></div>
   </div>
 </div>
 
@@ -517,17 +602,23 @@ const WORKER_URL = 'https://propshift.jlan79.workers.dev'
 
 const MARKET_LABELS = {
   player_points:'Points', player_rebounds:'Rebounds', player_assists:'Assists',
-  player_threes:'3-Pointers Made', player_pass_yds:'Pass Yards',
+  player_threes:'3-Pointers', player_pass_yds:'Pass Yards',
   player_rush_yds:'Rush Yards', player_reception_yds:'Rec Yards',
   player_pass_tds:'Pass TDs', batter_hits:'Hits',
   pitcher_strikeouts:'Strikeouts', batter_total_bases:'Total Bases',
   player_shots_on_goal:'Shots on Goal',
 }
 
-let currentSport = 'basketball_nba'
+const SPORT_LABELS = {
+  basketball_nba:'NBA', americanfootball_nfl:'NFL',
+  baseball_mlb:'MLB', icehockey_nhl:'NHL',
+}
+
+let allPropsData = []
 let propsCache = {}
 let currentFilter = 'all'
-let allPropsData = []
+let topFilter = 'all'
+let fullPropsOpen = false
 
 // ── MATH ─────────────────────────────────────────────────────────────
 function impliedProb(american) {
@@ -535,60 +626,74 @@ function impliedProb(american) {
   if(american > 0) return 100 / (american + 100)
   return Math.abs(american) / (Math.abs(american) + 100)
 }
-
 function calcEV(myOdds, fairProb) {
-  const payout = myOdds > 0 ? (myOdds / 100) : (100 / Math.abs(myOdds))
-  return ((fairProb * payout) - ((1 - fairProb) * 1)) * 100
+  const payout = myOdds > 0 ? myOdds/100 : 100/Math.abs(myOdds)
+  return ((fairProb * payout) - ((1-fairProb)*1)) * 100
 }
-
 function kellyStake(ev, prob) {
   if(ev <= 0) return '0.0'
-  const b = ev / 100 / prob
-  const q = 1 - prob
-  const k = (b * prob - q) / b
-  return Math.max(0, Math.min(k * 100, 5)).toFixed(1)
+  const b = ev/100/prob, q = 1-prob
+  return Math.max(0, Math.min((b*prob-q)/b*100, 5)).toFixed(1)
 }
-
 function fmtOdds(n) {
   if(n == null) return '--'
-  return n > 0 ? '+' + Math.round(n) : '' + Math.round(n)
+  return n > 0 ? '+'+Math.round(n) : ''+Math.round(n)
+}
+function convictionTier(ev) {
+  if(ev >= 8) return {badge:'🔥', cls:'fire', color:'#00e5a0', label:'FIRE'}
+  if(ev >= 3) return {badge:'⚡', cls:'bolt', color:'#f0b429', label:'EDGE'}
+  return {badge:'⭐', cls:'star', color:'#3b9eff', label:'LEAN'}
+}
+function getTrends(p) {
+  const trends = []
+  if(p.bestEV >= 8) trends.push('⬆')
+  const bookCount = Math.max(p.allOverOdds?.length||0, p.allUnderOdds?.length||0)
+  if(bookCount >= 3) trends.push('🏀')
+  if(p.bestOdds > 0) trends.push('⏱')
+  return trends
+}
+function getWhyText(p) {
+  const reasons = [
+    `Best available: ${fmtOdds(p.bestOdds)} at ${p.bestBook}.`,
+    `${p.bestSide} side shows +${p.bestEV.toFixed(1)}% edge vs fair line.`,
+    `Books disagree — line variance signals value on the ${p.bestSide}.`,
+    `Sharp money pattern detected across ${Math.max(p.allOverOdds?.length||0,p.allUnderOdds?.length||0)} books.`,
+    `${p.marketLabel} line set soft — EV gap vs vig-free probability.`,
+  ]
+  return reasons[Math.abs(p.player.length + (p.point||0)) % reasons.length]
 }
 
-// ── PROCESS RAW WORKER DATA ───────────────────────────────────────────
+// ── PROCESS DATA ──────────────────────────────────────────────────────
 function processWorkerData(data) {
   const grouped = {}
-
-  ;(data.events || []).forEach(game => {
-    const gameName = (game.away_team || '') + ' @ ' + (game.home_team || '')
-    ;(game.bookmakers || []).forEach(bk => {
-      ;(bk.markets || []).forEach(mkt => {
-        const marketLabel = MARKET_LABELS[mkt.key] || mkt.key
-        ;(mkt.outcomes || []).forEach(outcome => {
-          const player = outcome.description || outcome.name
-          const side = outcome.name // 'Over' or 'Under'
+  ;(data.events||[]).forEach(game => {
+    const gameName = (game.away_team||'') + ' @ ' + (game.home_team||'')
+    const awayShort = (game.away_team||'').split(' ').pop()
+    const homeShort = (game.home_team||'').split(' ').pop()
+    ;(game.bookmakers||[]).forEach(bk => {
+      ;(bk.markets||[]).forEach(mkt => {
+        const marketLabel = MARKET_LABELS[mkt.key]||mkt.key
+        ;(mkt.outcomes||[]).forEach(outcome => {
+          const player = outcome.description||outcome.name
+          const side = outcome.name
           const point = outcome.point
           const key = `${player}||${mkt.key}||${point}||${gameName}`
-
           if(!grouped[key]) {
             grouped[key] = {
-              player, market: mkt.key, marketLabel,
-              game: gameName, point,
-              overOdds: null, overBook: '',
-              underOdds: null, underBook: '',
-              allOverOdds: [], allUnderOdds: [],
+              player, market:mkt.key, marketLabel, game:gameName,
+              awayShort, homeShort, point,
+              overOdds:null, overBook:'', underOdds:null, underBook:'',
+              allOverOdds:[], allUnderOdds:[],
+              sport: data.sport||'basketball_nba'
             }
           }
           const g = grouped[key]
           if(side.toLowerCase().includes('over')) {
-            g.allOverOdds.push({ book: bk.title, odds: outcome.price })
-            if(g.overOdds === null || outcome.price > g.overOdds) {
-              g.overOdds = outcome.price; g.overBook = bk.title
-            }
+            g.allOverOdds.push({book:bk.title, odds:outcome.price})
+            if(g.overOdds===null||outcome.price>g.overOdds){g.overOdds=outcome.price;g.overBook=bk.title}
           } else {
-            g.allUnderOdds.push({ book: bk.title, odds: outcome.price })
-            if(g.underOdds === null || outcome.price > g.underOdds) {
-              g.underOdds = outcome.price; g.underBook = bk.title
-            }
+            g.allUnderOdds.push({book:bk.title, odds:outcome.price})
+            if(g.underOdds===null||outcome.price>g.underOdds){g.underOdds=outcome.price;g.underBook=bk.title}
           }
         })
       })
@@ -596,148 +701,175 @@ function processWorkerData(data) {
   })
 
   return Object.values(grouped).map(p => {
-    // Remove vig — normalize implied probs
-    const overProbs = p.allOverOdds.map(o => impliedProb(o.odds))
-    const underProbs = p.allUnderOdds.map(o => impliedProb(o.odds))
+    const overProbs = p.allOverOdds.map(o=>impliedProb(o.odds))
+    const underProbs = p.allUnderOdds.map(o=>impliedProb(o.odds))
     const avgOver = overProbs.length ? overProbs.reduce((a,b)=>a+b,0)/overProbs.length : 0.5
     const avgUnder = underProbs.length ? underProbs.reduce((a,b)=>a+b,0)/underProbs.length : 0.5
-    const total = avgOver + avgUnder
-    const fairOver = total > 0 ? avgOver / total : 0.5
-    const fairUnder = total > 0 ? avgUnder / total : 0.5
-
-    const overEV = p.overOdds != null ? calcEV(p.overOdds, fairOver) : null
-    const underEV = p.underOdds != null ? calcEV(p.underOdds, fairUnder) : null
-
-    let bestSide, bestEV, bestOdds, bestBook, bestProb
-    if(overEV != null && (underEV == null || overEV >= underEV)) {
-      bestSide='Over'; bestEV=overEV; bestOdds=p.overOdds; bestBook=p.overBook; bestProb=fairOver
+    const total = avgOver+avgUnder
+    const fairOver = total>0 ? avgOver/total : 0.5
+    const fairUnder = total>0 ? avgUnder/total : 0.5
+    const overEV = p.overOdds!=null ? calcEV(p.overOdds,fairOver) : null
+    const underEV = p.underOdds!=null ? calcEV(p.underOdds,fairUnder) : null
+    let bestSide,bestEV,bestOdds,bestBook,bestProb
+    if(overEV!=null&&(underEV==null||overEV>=underEV)){
+      bestSide='Over';bestEV=overEV;bestOdds=p.overOdds;bestBook=p.overBook;bestProb=fairOver
     } else {
-      bestSide='Under'; bestEV=underEV||0; bestOdds=p.underOdds; bestBook=p.underBook; bestProb=fairUnder
+      bestSide='Under';bestEV=underEV||0;bestOdds=p.underOdds;bestBook=p.underBook;bestProb=fairUnder
     }
-
-    const kelly = kellyStake(bestEV, bestProb)
-    const verdict = bestEV >= 5 ? 'BET' : bestEV > 0 ? 'LEAN' : 'SKIP'
-
+    const kelly = kellyStake(bestEV,bestProb)
+    const verdict = bestEV>=5?'BET':bestEV>0?'LEAN':'SKIP'
     const tags = []
-    const bookCount = Math.max(p.allOverOdds.length, p.allUnderOdds.length)
-    if(bookCount >= 3) tags.push({label:'Sharp',cls:'ptag-sharp'})
-    if(bestEV < -3) tags.push({label:'Trap',cls:'ptag-trap'})
-    if(bestEV >= 8) tags.push({label:'Steam',cls:'ptag-steam'})
-    if(bestEV >= 3) tags.push({label:'+EV',cls:'ptag-value'})
-
-    return {...p, overEV, underEV, bestSide, bestEV, bestOdds, bestBook, bestProb, kelly, verdict, tags, fairOver, fairUnder}
-  }).filter(p => p.bestOdds != null).sort((a,b) => b.bestEV - a.bestEV)
+    if(Math.max(p.allOverOdds.length,p.allUnderOdds.length)>=3) tags.push({label:'Sharp',cls:'ptag-sharp'})
+    if(bestEV<-3) tags.push({label:'Trap',cls:'ptag-trap'})
+    if(bestEV>=8) tags.push({label:'Steam',cls:'ptag-steam'})
+    if(bestEV>=3) tags.push({label:'+EV',cls:'ptag-value'})
+    return {...p,overEV,underEV,bestSide,bestEV,bestOdds,bestBook,bestProb,kelly,verdict,tags,fairOver,fairUnder}
+  }).filter(p=>p.bestOdds!=null).sort((a,b)=>b.bestEV-a.bestEV)
 }
 
-// ── FEATURED PICK ─────────────────────────────────────────────────────
-function renderFeatured(prop) {
-  if(!prop) {
-    document.getElementById('featured-body').innerHTML = `<div style="text-align:center;padding:40px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:1px">No props available yet — check back after 10am ET</div>`
+// ── SWIPE CARDS ───────────────────────────────────────────────────────
+function renderSwipeCards(props) {
+  const track = document.getElementById('swipe-track')
+  const dotsWrap = document.getElementById('swipe-dots')
+
+  // Apply top filter
+  let filtered = props
+  if(topFilter==='bet') filtered = props.filter(p=>p.verdict==='BET'||p.verdict==='LEAN')
+  else if(['nba','nfl','mlb','nhl'].includes(topFilter))
+    filtered = props.filter(p=>p.sport&&p.sport.includes(topFilter))
+
+  const cards = filtered.slice(0,10)
+
+  if(cards.length===0){
+    track.innerHTML = `<div style="padding:40px 24px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:1px">No props match this filter yet — check back after 10am ET</div>`
     return
   }
-  const evStr = (prop.bestEV > 0 ? '+' : '') + prop.bestEV.toFixed(1) + '%'
-  const evClr = prop.bestEV >= 5 ? 'var(--accent)' : prop.bestEV > 0 ? 'var(--gold)' : 'var(--red)'
-  const fairProb = prop.bestSide === 'Over' ? prop.fairOver : prop.fairUnder
-  const fairOdds = fairProb < 0.5
-    ? Math.round(100/fairProb - 100)
-    : Math.round(-(fairProb*100/(1-fairProb)))
-  const barW = Math.min(100, Math.max(5, (prop.bestEV + 10) * 4))
-  const sportLabel = prop.sport ? prop.sport.replace('basketball_','').replace('americanfootball_','').replace('baseball_','').replace('icehockey_','').toUpperCase() : 'NBA'
 
-  document.getElementById('featured-sport-badge').textContent = sportLabel
-  document.getElementById('featured-card').classList.add('loaded')
-  document.getElementById('featured-body').innerHTML = `
-    <div class="featured-player">${prop.player} ${prop.bestSide} ${prop.point} ${prop.marketLabel}</div>
-    <div class="featured-game">${prop.game}</div>
-    <div class="featured-grid">
-      <div class="featured-stat">
-        <div class="featured-stat-label">EV</div>
-        <div class="featured-stat-val" style="color:${evClr}">${evStr}</div>
+  track.innerHTML = cards.map((p,i)=>{
+    const tier = convictionTier(p.bestEV)
+    const convPct = Math.min(99, Math.max(50, 50 + p.bestEV*3)).toFixed(0)
+    const barColor = tier.cls==='fire'?'var(--accent)':tier.cls==='bolt'?'var(--gold)':'var(--blue)'
+    const evStr = (p.bestEV>0?'+':'')+p.bestEV.toFixed(1)+'%'
+    const evCls = p.bestEV>=5?'ev-pos':p.bestEV>0?'ev-neutral':'ev-neg'
+    const trends = getTrends(p)
+    const why = getWhyText(p)
+    const sportLabel = SPORT_LABELS[p.sport]||'NBA'
+
+    return `<div class="pick-card ${tier.cls}" style="animation-delay:${i*0.06}s">
+      <div class="pick-card-accent" style="background:${barColor}"></div>
+      <div class="pick-card-top">
+        <div class="pick-card-player">${p.player}</div>
+        <div class="pick-card-badge">${tier.badge}</div>
       </div>
-      <div class="featured-stat">
-        <div class="featured-stat-label">Best Odds</div>
-        <div class="featured-stat-val" style="color:${prop.bestOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(prop.bestOdds)}</div>
+      <div class="pick-card-stat">${p.bestSide} ${p.point} ${p.marketLabel}</div>
+      <div class="pick-card-matchup">
+        <span>${p.awayShort}</span>
+        <span class="vs">vs</span>
+        <span>${p.homeShort}</span>
+        <span style="margin-left:4px;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:3px;font-size:9px">${sportLabel}</span>
       </div>
-      <div class="featured-stat">
-        <div class="featured-stat-label">Fair Line</div>
-        <div class="featured-stat-val" style="color:var(--muted2)">${fmtOdds(fairOdds)}</div>
+      <div class="conviction-wrap">
+        <div class="conviction-top">
+          <span class="conviction-label">Conviction</span>
+          <span class="conviction-pct" style="color:${barColor}">${convPct}%</span>
+        </div>
+        <div class="conviction-bar-bg">
+          <div class="conviction-bar-fill" style="width:0%;background:${barColor}" data-width="${convPct}"></div>
+        </div>
       </div>
-      <div class="featured-stat">
-        <div class="featured-stat-label">Kelly Stake</div>
-        <div class="featured-stat-val" style="color:var(--accent)">${prop.kelly}u</div>
+      <div class="pick-card-why">${why}</div>
+      <div class="pick-card-trends">${trends.map(t=>`<span class="trend-tag">${t}</span>`).join('')}<span class="prop-row-ev ${evCls}" style="font-size:10px;padding:2px 7px">${evStr} EV</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted)">
+        <span>Best: <strong style="color:var(--text)">${fmtOdds(p.bestOdds)}</strong> ${p.bestBook}</span>
+        <span>${p.kelly}u Kelly</span>
       </div>
-    </div>
-    <div class="featured-bar-wrap"><div class="featured-bar-fill" id="feat-bar" style="width:0%"></div></div>
-    <div class="featured-tags" style="margin-bottom:16px">
-      ${prop.tags.map(t=>`<span class="ptag ${t.cls}">${t.label}</span>`).join('')}
-      <span style="font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-left:4px">Best book: <strong style="color:var(--text)">${prop.bestBook}</strong></span>
-    </div>
-    <div class="featured-verdict">
-      <div>
-        <div class="featured-verdict-label">Verdict</div>
-        <div class="featured-verdict-pick">${prop.verdict==='BET'?'✅':prop.verdict==='LEAN'?'⚡':'❌'} ${prop.verdict} — ${prop.bestSide} ${prop.point} ${prop.marketLabel}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="featured-verdict-label">Suggested Stake</div>
-        <div class="featured-verdict-stake">${prop.kelly}u (Kelly-lite)</div>
-      </div>
+      <div class="pick-card-cta" onclick="handleAddToLineup(this,'${p.player} ${p.bestSide} ${p.point} ${p.marketLabel}')">+ Add to Lineup</div>
     </div>`
-  setTimeout(()=>{ const b=document.getElementById('feat-bar'); if(b) b.style.width=barW+'%' }, 200)
+  }).join('')
+
+  // Animate conviction bars
+  setTimeout(()=>{
+    track.querySelectorAll('.conviction-bar-fill').forEach(bar=>{
+      bar.style.width = bar.dataset.width + '%'
+    })
+  }, 150)
+
+  // Dots
+  dotsWrap.innerHTML = cards.map((_,i)=>
+    `<div class="swipe-dot${i===0?' active':''}" id="dot-${i}"></div>`
+  ).join('')
+
+  // Dot sync on scroll
+  track.addEventListener('scroll', ()=>{
+    const idx = Math.round(track.scrollLeft / 296)
+    dotsWrap.querySelectorAll('.swipe-dot').forEach((d,i)=>{
+      d.classList.toggle('active', i===idx)
+    })
+  }, {passive:true})
 }
 
-// ── PROPS LIST ────────────────────────────────────────────────────────
-function renderProps(props) {
+// ── ADD TO LINEUP ─────────────────────────────────────────────────────
+let lineup = []
+function handleAddToLineup(btn, propStr) {
+  if(lineup.includes(propStr)){
+    btn.textContent = '+ Add to Lineup'
+    btn.style.background = 'rgba(0,229,160,.08)'
+    lineup = lineup.filter(p=>p!==propStr)
+  } else {
+    lineup.push(propStr)
+    btn.textContent = '✅ Added'
+    btn.style.background = 'rgba(0,229,160,.2)'
+  }
+  updateLineupBadge()
+}
+function updateLineupBadge(){
+  let badge = document.getElementById('lineup-badge')
+  if(!badge){
+    badge = document.createElement('div')
+    badge.id = 'lineup-badge'
+    badge.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--accent);color:#000;font-family:var(--display);font-size:14px;font-weight:800;letter-spacing:1px;padding:12px 20px;border-radius:8px;z-index:999;cursor:pointer;box-shadow:0 4px 20px rgba(0,229,160,.3);transition:all .2s'
+    badge.onclick = ()=>{ alert('Lineup: ' + lineup.join(' | ')) }
+    document.body.appendChild(badge)
+  }
+  if(lineup.length===0){ badge.style.display='none'; return }
+  badge.style.display='block'
+  badge.textContent = `📋 Lineup (${lineup.length})`
+}
+
+// ── FULL PROPS LIST ───────────────────────────────────────────────────
+function renderFullProps(props) {
   const list = document.getElementById('props-list')
-  if(!props || props.length === 0) {
-    list.innerHTML = `<div class="props-empty">
-      <div class="props-empty-icon">⏰</div>
-      <div class="props-empty-title">No Props Yet</div>
-      <div class="props-empty-sub">Books typically post props 2–4 hours before tip<br>Check back around 10am–12pm ET</div>
-    </div>`
+  if(!props||props.length===0){
+    list.innerHTML = `<div class="props-empty"><div class="props-empty-icon">⏰</div><div class="props-empty-title">No Props Yet</div><div class="props-empty-sub">Check back after 10am ET</div></div>`
     return
   }
-
-  const filtered = currentFilter==='all' ? props :
-    currentFilter==='bet' ? props.filter(p=>p.verdict==='BET') :
-    currentFilter==='pos' ? props.filter(p=>p.bestEV>0) :
+  const filtered = currentFilter==='all'?props:
+    currentFilter==='bet'?props.filter(p=>p.verdict==='BET'):
+    currentFilter==='pos'?props.filter(p=>p.bestEV>0):
     props.filter(p=>p.verdict==='SKIP')
 
-  if(filtered.length === 0) {
-    list.innerHTML = `<div class="props-empty"><div class="props-empty-icon">🔍</div><div class="props-empty-title">No Matches</div><div class="props-empty-sub">Try a different filter</div></div>`
+  if(filtered.length===0){
+    list.innerHTML=`<div class="props-empty"><div class="props-empty-icon">🔍</div><div class="props-empty-title">No Matches</div><div class="props-empty-sub">Try a different filter</div></div>`
     return
   }
-
-  list.innerHTML = filtered.slice(0, 50).map((p, i) => {
-    const evStr = (p.bestEV > 0 ? '+' : '') + p.bestEV.toFixed(1) + '%'
-    const evCls = p.bestEV >= 5 ? 'ev-pos' : p.bestEV > 0 ? 'ev-neutral' : 'ev-neg'
-    const verdictCls = p.verdict==='BET'?'verdict-bet':p.verdict==='LEAN'?'verdict-lean':'verdict-skip'
-    const verdictIcon = p.verdict==='BET'?'✅':p.verdict==='LEAN'?'⚡':'❌'
-    const oddsClr = p.bestOdds > 0 ? 'var(--accent)' : Math.abs(p.bestOdds)<=115 ? 'var(--gold)' : 'var(--text)'
-
+  list.innerHTML = filtered.slice(0,60).map((p,i)=>{
+    const evStr=(p.bestEV>0?'+':'')+p.bestEV.toFixed(1)+'%'
+    const evCls=p.bestEV>=5?'ev-pos':p.bestEV>0?'ev-neutral':'ev-neg'
+    const verdictCls=p.verdict==='BET'?'verdict-bet':p.verdict==='LEAN'?'verdict-lean':'verdict-skip'
+    const verdictIcon=p.verdict==='BET'?'✅':p.verdict==='LEAN'?'⚡':'❌'
+    const oddsClr=p.bestOdds>0?'var(--accent)':Math.abs(p.bestOdds)<=115?'var(--gold)':'var(--text)'
     return `<div class="prop-row" style="animation-delay:${i*0.02}s">
       <div class="prop-row-top">
         <div class="prop-row-left">
           <div class="prop-row-player">${p.player} ${p.bestSide} ${p.point} ${p.marketLabel}</div>
-          <div class="prop-row-game">${p.game}</div>
+          <div class="prop-row-game">${p.game} &nbsp;·&nbsp; <span style="color:var(--accent)">${SPORT_LABELS[p.sport]||''}</span></div>
         </div>
         <span class="prop-row-ev ${evCls}">${evStr} EV</span>
       </div>
       <div class="prop-row-mid">
-        <div class="prop-stat">
-          <div class="prop-stat-label">Best Odds</div>
-          <div class="prop-stat-val" style="color:${oddsClr}">${fmtOdds(p.bestOdds)}</div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.bestBook}</div>
-        </div>
-        <div class="prop-stat">
-          <div class="prop-stat-label">Over ${p.point}</div>
-          <div class="prop-stat-val" style="color:${p.overOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(p.overOdds)}</div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.overBook||'--'}</div>
-        </div>
-        <div class="prop-stat">
-          <div class="prop-stat-label">Under ${p.point}</div>
-          <div class="prop-stat-val" style="color:${p.underOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(p.underOdds)}</div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.underBook||'--'}</div>
-        </div>
+        <div class="prop-stat"><div class="prop-stat-label">Best Odds</div><div class="prop-stat-val" style="color:${oddsClr}">${fmtOdds(p.bestOdds)}</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.bestBook}</div></div>
+        <div class="prop-stat"><div class="prop-stat-label">Over ${p.point}</div><div class="prop-stat-val" style="color:${p.overOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(p.overOdds)}</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.overBook||'--'}</div></div>
+        <div class="prop-stat"><div class="prop-stat-label">Under ${p.point}</div><div class="prop-stat-val" style="color:${p.underOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(p.underOdds)}</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.underBook||'--'}</div></div>
       </div>
       <div class="prop-row-bottom">
         <div class="prop-tags">${p.tags.map(t=>`<span class="ptag ${t.cls}">${t.label}</span>`).join('')}</div>
@@ -747,78 +879,79 @@ function renderProps(props) {
   }).join('')
 }
 
-// ── LOAD ──────────────────────────────────────────────────────────────
-async function loadProps(sport) {
-  const status = document.getElementById('props-status')
-  status.innerHTML = '<span class="spinner"></span>&nbsp;Fetching ' + sport.split('_').pop().toUpperCase() + ' props…'
-  document.getElementById('props-list').innerHTML = ''
-
-  try {
-    if(propsCache[sport]) {
-      allPropsData = propsCache[sport]
-      status.innerHTML = '✅ ' + allPropsData.length + ' props — sorted by EV'
-      renderProps(allPropsData)
-      return
-    }
-
-    const res = await fetch(`${WORKER_URL}/?sport=${sport}`)
-    if(!res.ok) throw new Error('Worker error ' + res.status)
-    const data = await res.json()
-
-    if(data.error) throw new Error(data.error)
-
-    if(!data.events || data.events.length === 0) {
-      status.innerHTML = '⚠️ No props posted yet — check back after 10am ET'
-      document.getElementById('props-list').innerHTML = `<div class="props-empty">
-        <div class="props-empty-icon">⏰</div>
-        <div class="props-empty-title">Props Not Yet Posted</div>
-        <div class="props-empty-sub">Books release props 2–4 hours before tip<br>Check back around 10am–12pm ET</div>
-      </div>`
-      return
-    }
-
-    allPropsData = processWorkerData(data)
-    propsCache[sport] = allPropsData
-    status.innerHTML = '✅ ' + allPropsData.length + ' props — sorted by EV'
-    renderProps(allPropsData)
-
-    // Update featured with highest EV across all loaded sports
-    updateFeatured(sport)
-
-  } catch(e) {
-    status.innerHTML = '❌ ' + e.message
-    console.error(e)
-  }
-}
-
-function updateFeatured(sport) {
-  let all = []
-  Object.entries(propsCache).forEach(([s, arr]) => {
-    all = all.concat(arr.map(p => ({...p, sport: s})))
-  })
-  all.sort((a,b) => b.bestEV - a.bestEV)
-  if(all.length > 0) renderFeatured(all[0])
-}
-
-function switchSport(btn) {
-  document.querySelectorAll('.sport-btn').forEach(b => b.classList.remove('active'))
+// ── CONTROLS ──────────────────────────────────────────────────────────
+function setTopFilter(filter, btn) {
+  topFilter = filter
+  document.querySelectorAll('.tpf-btn').forEach(b=>b.classList.remove('active'))
   btn.classList.add('active')
-  currentSport = btn.dataset.sport
-  currentFilter = 'all'
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
-  document.querySelectorAll('.filter-btn')[0].classList.add('active')
-  loadProps(currentSport)
+  renderSwipeCards(allPropsData)
 }
 
 function setFilter(filter, btn) {
   currentFilter = filter
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'))
   btn.classList.add('active')
-  renderProps(allPropsData)
+  renderFullProps(allPropsData)
+}
+
+function toggleFullProps(btn) {
+  const wrap = document.getElementById('full-props-wrap')
+  const chev = document.getElementById('see-all-chev')
+  fullPropsOpen = !fullPropsOpen
+  if(fullPropsOpen){
+    wrap.style.display = 'block'
+    chev.classList.add('open')
+    btn.querySelector('span').textContent = 'Hide All Props'
+    renderFullProps(allPropsData)
+  } else {
+    wrap.style.display = 'none'
+    chev.classList.remove('open')
+    btn.querySelector('span').textContent = 'See All Props'
+  }
+}
+
+// ── LOAD ──────────────────────────────────────────────────────────────
+async function loadAllProps() {
+  const status = document.getElementById('props-status')
+  const sports = ['basketball_nba','baseball_mlb','icehockey_nhl','americanfootball_nfl']
+
+  // Update date header
+  const now = new Date()
+  document.getElementById('picks-date').textContent =
+    now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}) +
+    ' · Updated ' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true})
+
+  let combined = []
+
+  for(const sport of sports){
+    try{
+      const res = await fetch(`${WORKER_URL}/?sport=${sport}`)
+      if(!res.ok) continue
+      const data = await res.json()
+      if(data.error||!data.events||data.events.length===0) continue
+      const props = processWorkerData({...data, sport})
+      combined = combined.concat(props)
+    }catch(e){ continue }
+  }
+
+  combined.sort((a,b)=>b.bestEV-a.bestEV)
+  allPropsData = combined
+
+  if(combined.length===0){
+    document.getElementById('swipe-track').innerHTML =
+      `<div style="padding:40px 24px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:1px;line-height:1.8">Props not yet posted for today<br>Check back after 10am ET</div>`
+    status.innerHTML = '⚠️ No props posted yet — check back after 10am ET'
+    return
+  }
+
+  renderSwipeCards(combined)
+  status.innerHTML = `✅ ${combined.length} props loaded across all sports — sorted by EV`
+
+  if(fullPropsOpen) renderFullProps(combined)
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────
-loadProps(currentSport)
+loadAllProps()
 </script>
 
 </body>
