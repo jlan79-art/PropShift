@@ -1,958 +1,311 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropShift — Free AI Prop Betting Decision Engine | Best Props Today</title>
-<meta name="description" content="PropShift is a free AI-powered prop betting decision engine. Real EV calculations, Kelly sizing, and BET/LEAN/SKIP verdicts on every player prop. NBA, NFL, MLB, NHL.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#080c0f;--bg2:#0d1318;--bg3:#111920;
-  --border:#1a2530;--border2:#223040;
-  --accent:#00e5a0;--accent2:#00b87a;
-  --red:#ff4055;--gold:#f0b429;--blue:#3b9eff;
-  --text:#e2eaf2;--muted:#5a7080;--muted2:#8aa0b0;
-  --mono:'JetBrains Mono',monospace;
-  --display:'Barlow Condensed',sans-serif;
-  --body:'Barlow',sans-serif;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
-body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
-.z1{position:relative;z-index:1}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,12,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(–border)}
-.nav-logo{font-family:var(–display);font-size:22px;font-weight:900;letter-spacing:2px;color:var(–accent);text-transform:uppercase}
-.nav-logo span{color:var(–text)}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{font-family:var(–mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(–muted2);transition:color .2s}
-.nav-links a:hover{color:var(–accent)}
-.nav-cta{background:var(–accent);color:var(–bg)!important;padding:8px 18px;border-radius:4px;font-weight:600!important;transition:background .2s!important}
-.nav-cta:hover{background:var(–accent2)!important}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(0,229,160,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 80%)}
-.hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.hero-eyebrow{font-family:var(–mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(–accent);margin-bottom:24px;display:flex;align-items:center;gap:12px;animation:fadeUp .6s ease both}
-.hero-eyebrow::before,.hero-eyebrow::after{content:’’;display:block;width:40px;height:1px;background:var(–accent);opacity:.5}
-.hero-headline{font-family:var(–display);font-size:clamp(64px,12vw,130px);font-weight:900;line-height:.88;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;animation:fadeUp .6s .1s ease both}
-.hero-headline .line1{color:var(–text);display:block}
-.hero-headline .line2{color:transparent;-webkit-text-stroke:1.5px var(–accent);display:block}
-.hero-sub{font-family:var(–display);font-size:clamp(18px,3vw,26px);font-weight:400;color:var(–muted2);letter-spacing:3px;text-transform:uppercase;margin-bottom:40px;animation:fadeUp .6s .2s ease both}
-.hero-notlist{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-bottom:52px;animation:fadeUp .6s .3s ease both}
-.hero-notlist span{font-family:var(–mono);font-size:11px;letter-spacing:1px;color:var(–muted);text-transform:uppercase;display:flex;align-items:center;gap:6px}
-.hero-notlist span::before{content:‘✕’;color:var(–red);font-size:10px}
-.hero-cta-group{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s .4s ease both}
-.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(–accent);color:#000;font-family:var(–display);font-size:16px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;border-radius:4px;transition:background .2s,transform .15s;cursor:pointer;border:none}
-.btn-primary:hover{background:var(–accent2);transform:translateY(-1px)}
-.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(–text);font-family:var(–display);font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px 36px;border-radius:4px;border:1px solid var(–border2);transition:border-color .2s,color .2s,transform .15s;cursor:pointer}
-.btn-secondary:hover{border-color:var(–accent);color:var(–accent);transform:translateY(-1px)}
-
-/* FEATURED PICK */
-.featured-section{background:var(–bg2);border-top:1px solid var(–border);border-bottom:1px solid var(–border);padding:60px 24px}
-.featured-inner{max-width:900px;margin:0 auto}
-.featured-label{font-family:var(–mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(–accent);margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.featured-label::after{content:’’;flex:1;height:1px;background:var(–border2)}
-.featured-card{background:var(–bg3);border:1px solid var(–border2);border-radius:12px;overflow:hidden;box-shadow:0 0 60px rgba(0,229,160,0.05)}
-.featured-card.loaded{border-color:rgba(0,229,160,0.25);box-shadow:0 0 60px rgba(0,229,160,0.08)}
-.featured-card-header{background:rgba(0,229,160,0.04);border-bottom:1px solid var(–border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.featured-card-title{font-family:var(–mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(–accent);display:flex;align-items:center;gap:8px}
-.featured-card-body{padding:28px 28px 24px}
-.featured-player{font-family:var(–display);font-size:clamp(28px,5vw,48px);font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(–text);margin-bottom:6px}
-.featured-game{font-family:var(–mono);font-size:12px;color:var(–muted);letter-spacing:1px;margin-bottom:24px}
-.featured-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.featured-stat{background:var(–bg);border:1px solid var(–border);border-radius:8px;padding:14px 16px}
-.featured-stat-label{font-family:var(–mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);margin-bottom:6px}
-.featured-stat-val{font-family:var(–display);font-size:26px;font-weight:800;letter-spacing:.5px}
-.featured-bar-wrap{background:var(–border);height:5px;border-radius:3px;overflow:hidden;margin-bottom:20px}
-.featured-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(–accent),var(–accent2));transition:width 1.2s ease}
-.featured-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.featured-verdict{background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.featured-verdict-label{font-family:var(–mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(–muted)}
-.featured-verdict-pick{font-family:var(–display);font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(–accent)}
-.featured-verdict-stake{font-family:var(–mono);font-size:13px;color:var(–muted2)}
-.featured-skeleton{background:rgba(255,255,255,.04);border-radius:6px;animation:shimmer 1.4s infinite}
-@keyframes shimmer{0%,100%{opacity:.3}50%{opacity:.7}}
-
-/* LIVE PROPS */
-.props-section{background:var(–bg);padding:80px 24px}
-.props-inner{max-width:900px;margin:0 auto}
-.props-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
-.props-title{font-family:var(–display);font-size:clamp(28px,5vw,48px);font-weight:900;text-transform:uppercase;letter-spacing:1px}
-.props-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.sport-btn{font-family:var(–mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:4px;border:1px solid var(–border2);background:transparent;color:var(–muted2);cursor:pointer;transition:all .2s}
-.sport-btn:hover{border-color:var(–accent);color:var(–accent)}
-.sport-btn.active{background:var(–accent);color:#000;border-color:var(–accent);font-weight:700}
-.props-filter{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
-.filter-btn{font-family:var(–mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid var(–border);background:transparent;color:var(–muted);cursor:pointer;transition:all .2s}
-.filter-btn:hover{border-color:var(–accent);color:var(–accent)}
-.filter-btn.active{border-color:var(–accent);color:var(–accent);background:rgba(0,229,160,.06)}
-.props-status{font-family:var(–mono);font-size:11px;letter-spacing:1px;color:var(–muted);margin-bottom:20px;display:flex;align-items:center;gap:8px}
-.prop-row{background:var(–bg2);border:1px solid var(–border);border-radius:10px;padding:18px 20px;margin-bottom:10px;transition:border-color .2s,box-shadow .2s;animation:fadeUp .3s ease both;position:relative;overflow:hidden}
-.prop-row::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:2px;background:var(–accent);transform:scaleY(0);transition:transform .2s;transform-origin:top}
-.prop-row:hover{border-color:var(–border2);box-shadow:0 4px 24px rgba(0,0,0,.4)}
-.prop-row:hover::before{transform:scaleY(1)}
-.prop-row-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
-.prop-row-left{}
-.prop-row-player{font-family:var(–display);font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(–text);margin-bottom:3px}
-.prop-row-game{font-family:var(–mono);font-size:10px;color:var(–muted);letter-spacing:1px}
-.prop-row-ev{font-family:var(–mono);font-size:13px;font-weight:600;padding:4px 12px;border-radius:4px}
-.ev-pos{background:rgba(0,229,160,.1);color:var(–accent)}
-.ev-neg{background:rgba(255,64,85,.1);color:var(–red)}
-.ev-neutral{background:rgba(240,180,41,.1);color:var(–gold)}
-.prop-row-mid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
-.prop-stat{background:var(–bg3);border:1px solid var(–border);border-radius:6px;padding:10px 12px}
-.prop-stat-label{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);margin-bottom:4px}
-.prop-stat-val{font-family:var(–display);font-size:18px;font-weight:800;letter-spacing:.5px}
-.prop-row-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.prop-tags{display:flex;gap:6px;flex-wrap:wrap}
-.ptag{font-family:var(–mono);font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
-.ptag-sharp{background:rgba(59,158,255,.1);color:var(–blue)}
-.ptag-trap{background:rgba(255,64,85,.1);color:var(–red)}
-.ptag-steam{background:rgba(240,180,41,.1);color:var(–gold)}
-.ptag-value{background:rgba(0,229,160,.1);color:var(–accent)}
-.prop-verdict{font-family:var(–display);font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:6px 16px;border-radius:4px}
-.verdict-bet{background:rgba(0,229,160,.1);color:var(–accent);border:1px solid rgba(0,229,160,.2)}
-.verdict-skip{background:rgba(255,64,85,.1);color:var(–red);border:1px solid rgba(255,64,85,.2)}
-.verdict-lean{background:rgba(240,180,41,.1);color:var(–gold);border:1px solid rgba(240,180,41,.2)}
-.props-empty{text-align:center;padding:60px 20px;color:var(–muted)}
-.props-empty-icon{font-size:3rem;opacity:.2;margin-bottom:16px}
-.props-empty-title{font-family:var(–display);font-size:2rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(–border2);margin-bottom:8px}
-.props-empty-sub{font-family:var(–mono);font-size:12px;letter-spacing:1px;color:var(–muted);line-height:1.8}
-
-/* IDENTITY STRIP */
-.identity-strip{background:var(–bg2);border-top:1px solid var(–border);border-bottom:1px solid var(–border);padding:28px 24px;overflow:hidden}
-.identity-inner{display:flex;align-items:center;justify-content:center;gap:0;max-width:1000px;margin:0 auto;flex-wrap:wrap}
-.identity-item{display:flex;flex-direction:column;align-items:center;padding:12px 36px;border-right:1px solid var(–border);flex:1;min-width:180px}
-.identity-item:last-child{border-right:none}
-.identity-label{font-family:var(–mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);margin-bottom:6px}
-.identity-value{font-family:var(–display);font-size:18px;font-weight:700;letter-spacing:1px;color:var(–accent);text-transform:uppercase}
-
-/* SECTIONS */
-section{padding:100px 24px}
-.section-label{font-family:var(–mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(–accent);margin-bottom:16px}
-.section-title{font-family:var(–display);font-size:clamp(42px,7vw,72px);font-weight:900;text-transform:uppercase;line-height:.9;margin-bottom:20px}
-.section-desc{font-size:17px;color:var(–muted2);max-width:560px;line-height:1.7;font-weight:300}
-.container{max-width:1100px;margin:0 auto}
-
-/* FEATURES */
-.features-section{background:var(–bg)}
-.features-header{margin-bottom:64px}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(–border);border:1px solid var(–border);border-radius:12px;overflow:hidden}
-.feature-card{background:var(–bg2);padding:40px 36px;transition:background .2s;position:relative;overflow:hidden}
-.feature-card::after{content:’’;position:absolute;bottom:0;left:0;right:0;height:2px;background:var(–accent);transform:scaleX(0);transition:transform .3s;transform-origin:left}
-.feature-card:hover{background:var(–bg3)}
-.feature-card:hover::after{transform:scaleX(1)}
-.feature-num{font-family:var(–mono);font-size:11px;color:var(–muted);letter-spacing:2px;margin-bottom:20px}
-.feature-icon{font-size:32px;margin-bottom:16px;display:block}
-.feature-name{font-family:var(–display);font-size:26px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(–text);margin-bottom:8px}
-.feature-tag{font-family:var(–mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-bottom:20px;display:inline-block}
-.tag-core{background:rgba(0,229,160,.1);color:var(–accent)}
-.tag-retention{background:rgba(240,180,41,.1);color:var(–gold)}
-.tag-moat{background:rgba(59,158,255,.1);color:var(–blue)}
-.feature-desc{font-size:14px;color:var(–muted2);line-height:1.7;margin-bottom:24px;font-weight:300}
-.feature-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.feature-list li{font-family:var(–mono);font-size:12px;color:var(–muted);display:flex;align-items:center;gap:8px;letter-spacing:.5px}
-.feature-list li::before{content:’’;width:4px;height:4px;border-radius:50%;background:var(–accent);flex-shrink:0}
-
-/* COMPARISON */
-.comparison-section{background:var(–bg)}
-.comparison-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(–border);border:1px solid var(–border);border-radius:12px;overflow:hidden;margin-top:56px}
-.comp-card{background:var(–bg2);padding:32px 28px}
-.comp-card.highlight{background:rgba(0,229,160,.04);border-top:2px solid var(–accent);margin-top:-1px}
-.comp-name{font-family:var(–display);font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.comp-type{font-family:var(–mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);margin-bottom:20px;display:flex;align-items:center;gap:6px}
-.comp-items{list-style:none;display:flex;flex-direction:column;gap:8px}
-.comp-items li{font-size:13px;color:var(–muted2);font-weight:300;display:flex;align-items:center;gap:8px;line-height:1.4}
-
-/* PRICING */
-.pricing-section{background:var(–bg2);border-top:1px solid var(–border)}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
-.pricing-card{background:var(–bg3);border:1px solid var(–border);border-radius:12px;padding:36px 30px;transition:border-color .2s,transform .2s;position:relative}
-.pricing-card:hover{border-color:var(–border2);transform:translateY(-4px)}
-.pricing-card.featured{border-color:var(–accent);background:rgba(0,229,160,.03)}
-.pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(–accent);color:#000;font-family:var(–mono);font-size:10px;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
-.pricing-tier{font-family:var(–mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(–muted);margin-bottom:12px}
-.pricing-price{font-family:var(–display);font-size:52px;font-weight:900;line-height:1;margin-bottom:4px;color:var(–text)}
-.pricing-price sup{font-size:24px;font-weight:400;vertical-align:super;color:var(–muted2)}
-.pricing-period{font-size:13px;color:var(–muted);margin-bottom:28px}
-.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
-.pricing-features li{font-size:13.5px;color:var(–muted2);display:flex;align-items:center;gap:10px;font-weight:300}
-.pricing-features li::before{content:‘✓’;color:var(–accent);font-size:12px;font-family:var(–mono);flex-shrink:0}
-.pricing-features li.dim::before{content:’—’;color:var(–muted)}
-.pricing-features li.dim{color:var(–muted)}
-
-/* FINAL CTA */
-.final-cta{background:var(–bg);text-align:center;padding:120px 24px;border-top:1px solid var(–border);position:relative;overflow:hidden}
-.final-cta-glow{position:absolute;width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,229,160,.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.final-label{font-family:var(–mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(–accent);margin-bottom:20px;display:block}
-.final-headline{font-family:var(–display);font-size:clamp(48px,8vw,88px);font-weight:900;text-transform:uppercase;line-height:.9;margin-bottom:24px;color:var(–text)}
-.final-sub{font-size:17px;color:var(–muted2);font-weight:300;max-width:480px;margin:0 auto 44px;line-height:1.6}
-
-/* FOOTER */
-footer{background:var(–bg);border-top:1px solid var(–border);padding:40px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.footer-logo{font-family:var(–display);font-size:18px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(–accent)}
-.footer-logo span{color:var(–muted)}
-.footer-copy{font-family:var(–mono);font-size:11px;color:var(–muted);letter-spacing:1px}
-.footer-links{display:flex;gap:24px;list-style:none}
-.footer-links a{font-family:var(–mono);font-size:11px;color:var(–muted);letter-spacing:1px;text-transform:uppercase;transition:color .2s}
-.footer-links a:hover{color:var(–accent)}
-
-/* SPINNER */
-.spinner{width:14px;height:14px;border:2px solid rgba(0,229,160,.2);border-top-color:var(–accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(–accent);animation:pulse 2s ease-in-out infinite;margin-right:6px}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-@media(max-width:900px){
-nav{padding:0 20px}
-.nav-links{display:none}
-.features-grid{grid-template-columns:1fr}
-.comparison-grid{grid-template-columns:1fr 1fr}
-.pricing-grid{grid-template-columns:1fr}
-.featured-grid{grid-template-columns:1fr 1fr}
-.prop-row-mid{grid-template-columns:1fr 1fr}
-footer{flex-direction:column;align-items:flex-start}
-}
-@media(max-width:600px){
-section{padding:72px 16px}
-.comparison-grid{grid-template-columns:1fr}
-.identity-inner{flex-direction:column}
-.identity-item{border-right:none;border-bottom:1px solid var(–border)}
-.identity-item:last-child{border-bottom:none}
-.featured-grid{grid-template-columns:1fr 1fr}
-.prop-row-mid{grid-template-columns:1fr}
-}
-
-/* ── TOP PICKS SWIPE CARDS ── */
-.top-picks-section{background:var(–bg);padding:60px 0 40px;border-bottom:1px solid var(–border)}
-.top-picks-header{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
-.top-picks-title{font-family:var(–display);font-size:clamp(24px,5vw,40px);font-weight:900;text-transform:uppercase;letter-spacing:1px}
-.top-picks-date{font-family:var(–mono);font-size:11px;letter-spacing:2px;color:var(–muted);text-transform:uppercase;margin-top:4px}
-.top-picks-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.tpf-btn{font-family:var(–mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid var(–border);background:transparent;color:var(–muted);cursor:pointer;transition:all .2s;white-space:nowrap}
-.tpf-btn:hover{border-color:var(–accent);color:var(–accent)}
-.tpf-btn.active{background:var(–accent);color:#000;border-color:var(–accent);font-weight:700}
-
-/* Swipe track */
-.swipe-track-wrap{position:relative;overflow:hidden}
-.swipe-track{display:flex;gap:16px;padding:8px 24px 20px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.swipe-track::-webkit-scrollbar{display:none}
-
-/* Swipe card */
-.pick-card{flex:0 0 280px;scroll-snap-align:start;background:var(–bg2);border:1px solid var(–border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s,box-shadow .2s;display:flex;flex-direction:column;gap:12px}
-.pick-card:hover{border-color:var(–border2);box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.pick-card.fire{border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.03)}
-.pick-card.bolt{border-color:rgba(240,180,41,.2);background:rgba(240,180,41,.02)}
-.pick-card.star{border-color:rgba(59,158,255,.2);background:rgba(59,158,255,.02)}
-.pick-card-accent{position:absolute;top:0;left:0;right:0;height:2px}
-.pick-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.pick-card-player{font-family:var(–display);font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;line-height:1.1}
-.pick-card-badge{font-size:20px;flex-shrink:0}
-.pick-card-stat{font-family:var(–display);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(–accent)}
-.pick-card-matchup{font-family:var(–mono);font-size:10px;letter-spacing:1px;color:var(–muted);text-transform:uppercase;display:flex;align-items:center;gap:6px}
-.pick-card-matchup .vs{color:var(–border2)}
-
-/* Conviction bar */
-.conviction-wrap{display:flex;flex-direction:column;gap:5px}
-.conviction-top{display:flex;align-items:center;justify-content:space-between}
-.conviction-label{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted)}
-.conviction-pct{font-family:var(–display);font-size:18px;font-weight:800;letter-spacing:.5px}
-.conviction-bar-bg{background:var(–border);height:4px;border-radius:2px;overflow:hidden}
-.conviction-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
-
-/* Why */
-.pick-card-why{font-size:12px;color:var(–muted2);line-height:1.55;font-weight:300}
-.pick-card-trends{display:flex;gap:6px;flex-wrap:wrap}
-.trend-tag{font-size:13px}
-
-/* CTA */
-.pick-card-cta{margin-top:auto;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:6px;padding:10px;font-family:var(–display);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(–accent);cursor:pointer;transition:all .2s;text-align:center}
-.pick-card-cta:hover{background:rgba(0,229,160,.15)}
-.pick-card-ev{font-family:var(–mono);font-size:10px;letter-spacing:1px;padding:2px 8px;border-radius:3px;align-self:flex-start}
-
-/* Scroll hint */
-.swipe-hint{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:8px}
-.swipe-hint-text{font-family:var(–mono);font-size:10px;letter-spacing:1px;color:var(–muted);text-transform:uppercase}
-.swipe-dots{display:flex;gap:4px}
-.swipe-dot{width:6px;height:6px;border-radius:50%;background:var(–border2);transition:background .2s}
-.swipe-dot.active{background:var(–accent)}
-
-/* See All toggle */
-.see-all-wrap{max-width:900px;margin:20px auto 0;padding:0 24px}
-.see-all-btn{width:100%;background:transparent;border:1px solid var(–border);border-radius:8px;padding:14px;font-family:var(–display);font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(–muted2);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.see-all-btn:hover{border-color:var(–accent);color:var(–accent)}
-.see-all-chevron{transition:transform .3s;font-size:12px}
-.see-all-chevron.open{transform:rotate(180deg)}
-
-/* Full props table */
-.full-props-wrap{max-width:900px;margin:0 auto;padding:0 24px;overflow:hidden;transition:max-height .4s ease}
-.full-props-inner{padding-top:20px}
-
-/* Loading skeleton cards */
-.pick-card-skeleton{flex:0 0 280px;scroll-snap-align:start;background:var(–bg2);border:1px solid var(–border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px}
-.skel{background:rgba(255,255,255,.05);border-radius:4px;animation:shimmer 1.4s infinite}
-
-@media(max-width:600px){
-.pick-card{flex:0 0 260px}
-.top-picks-filters{display:none}
-}
-
-</style>
-
-<meta name="keywords" content="player props today, prop betting, best props today, EV betting, Kelly criterion, NBA props, NFL props, MLB props, NHL props, free prop picks, sports betting AI">
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="PropShift — Free AI Prop Betting Decision Engine">
-<meta property="og:description" content="Real EV calculations on every player prop. BET/LEAN/SKIP verdicts with Kelly stake sizing. Free — no signup required.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://jlan79-art.github.io/PropShift/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PropShift — Free AI Prop Betting Decision Engine">
-<meta name="twitter:description" content="Real EV calculations on every player prop. BET/LEAN/SKIP verdicts. Free — no signup.">
-<link rel="canonical" href="https://jlan79-art.github.io/PropShift/">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"PropShift","url":"https://jlan79-art.github.io/PropShift/","description":"Free AI-powered prop betting decision engine with real EV calculations, Kelly sizing, and BET/LEAN/SKIP verdicts on NBA, NFL, MLB and NHL player props."}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are PropShift picks free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PropShift shows your first 3 props free every day with no signup required. Pro plan unlocks unlimited props."}},{"@type":"Question","name":"How does PropShift calculate EV?","acceptedAnswer":{"@type":"Answer","text":"PropShift removes the vig from odds across DraftKings, FanDuel, BetMGM and Caesars to calculate a fair line, then computes expected value against that fair line for every prop."}},{"@type":"Question","name":"What sports does PropShift cover?","acceptedAnswer":{"@type":"Answer","text":"PropShift covers NBA, NFL, MLB and NHL player props with live odds updated throughout the day."}}]}
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropShift — Smart Prop Betting Decisions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline { 
+            font-size: 1.2rem; 
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .controls {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .sport-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .sport-btn.active, .sport-btn:hover {
+            background: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-2px);
+        }
+        .refresh-btn {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00d4aa, #00b894);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .refresh-btn:hover { transform: scale(1.05); }
+        .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .props-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .prop-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        .prop-card:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .prop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .player-name { 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+        }
+        .line-display {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffd700;
+        }
+        
+        .decision-badge {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .bet-now { background: #00d4aa; color: #000; }
+        .wait { background: #ffed4e; color: #000; }
+        .avoid { background: #ff6b6b; color: white; }
+        
+        .quality-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .score-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white;
+        }
+        .score-90 { background: linear-gradient(45deg, #00d4aa, #00b894); }
+        .score-70 { background: linear-gradient(45deg, #ffd700, #ffed4e); }
+        .score-low { background: linear-gradient(45deg, #ff6b6b, #ff8e8e); }
+        
+        .movement-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        .movement-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .public-money { background: rgba(255,107,107,0.3); color: #ff6b6b; }
+        .sharp-action { background: rgba(0,212,170,0.3); color: #00d4aa; }
+        .peak-line { background: rgba(255,107,107,0.3); color: #ff6b6b; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.7;
+        }
+        @media (max-width: 768px) {
+            .props-grid { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; align-items: center; }
+        }
+    </style>
 </head>
 <body>
-
-<!-- NAV -->
-
-<nav class="z1">
-  <div class="nav-logo">Prop<span>Shift</span></div>
-  <ul class="nav-links">
-    <li><a href="#featured">Today's Edge</a></li>
-    <li><a href="#props">Live Props</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#pricing" class="nav-cta">Get Early Access</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-
-<section class="hero z1">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-eyebrow"><span class="live-dot"></span>Prop Betting Decision Engine</div>
-  <h1 class="hero-headline">
-    <span class="line1">Stop Guessing.</span>
-    <span class="line2">Start Deciding.</span>
-  </h1>
-  <p class="hero-sub">The terminal bettors open before every prop</p>
-  <div class="hero-notlist">
-    <span>Not a research tool</span>
-    <span>Not an odds screen</span>
-    <span>Not an arb scanner</span>
-  </div>
-  <div class="hero-cta-group">
-    <a href="#featured" class="btn-primary">See Today's Best Prop &darr;</a>
-    <a href="#features" class="btn-secondary">How It Works</a>
-  </div>
-</section>
-
-<!-- IDENTITY STRIP -->
-
-<div class="identity-strip z1">
-  <div class="identity-inner">
-    <div class="identity-item"><span class="identity-label">What to Bet</span><span class="identity-value">Prop Sniper</span></div>
-    <div class="identity-item"><span class="identity-label">How Much</span><span class="identity-value">Kelly Sizing</span></div>
-    <div class="identity-item"><span class="identity-label">Why the Line Exists</span><span class="identity-value">Transparency</span></div>
-    <div class="identity-item"><span class="identity-label">Is It Good for You</span><span class="identity-value">Bankroll Copilot</span></div>
-  </div>
-</div>
-
-<!-- TOP PICKS -->
-
-<div class="top-picks-section z1" id="featured">
-  <div class="top-picks-header">
-    <div>
-      <div class="top-picks-title">Today's Top Props</div>
-      <div class="top-picks-date" id="picks-date">Loading&hellip;</div>
+    <div class="container">
+        <div class="header">
+            <h1>PropShift</h1>
+            <p class="tagline">Smart Decisions, Not Just Data</p>
+        </div>
+        
+        <div class="controls">
+            <button class="sport-btn" data-sport="nfl">NFL</button>
+            <button class="sport-btn" data-sport="nba">NBA</button>
+            <button class="sport-btn" data-sport="mlb">MLB</button>
+            <button class="sport-btn active" data-sport="nfl">Props</button>
+            <button class="refresh-btn" onclick="loadProps()">🔄 Refresh Props</button>
+        </div>
+        
+        <div id="props-container" class="props-grid">
+            <div class="empty-state">
+                <h3>Select a sport and refresh to see live prop analysis</h3>
+                <p>PropShift analyzes line movement, volatility, and market signals to tell you exactly when to bet.</p>
+            </div>
+        </div>
     </div>
-    <div class="top-picks-filters">
-      <button class="tpf-btn active" onclick="setTopFilter('all',this)">All Props</button>
-      <button class="tpf-btn" onclick="setTopFilter('bet',this)">&#x1F525; Top Picks</button>
-      <button class="tpf-btn" onclick="setTopFilter('nba',this)">NBA</button>
-      <button class="tpf-btn" onclick="setTopFilter('nfl',this)">NFL</button>
-      <button class="tpf-btn" onclick="setTopFilter('mlb',this)">MLB</button>
-      <button class="tpf-btn" onclick="setTopFilter('nhl',this)">NHL</button>
-    </div>
-  </div>
 
-  <!-- SWIPE CARDS -->
+    <script>
+        let currentSport = 'nfl';
+        let propsData = [];
+        
+        // Sample data structure - replace with your API
+        const sampleProps = {
+            nfl: [
+                {
+                    player: "Christian McCaffrey Rush Yards",
+                    currentLine: "85.5",
+                    openLine: "78.5",
+                    movement: "+7.0",
+                    qualityScore: 92,
+                    decision: "bet-now",
+                    tags: ["sharp-action"],
+                    explanation: "Line moving up fast on sharp money, great entry before it hits 90+"
+                },
+                {
+                    player: "Patrick Mahomes Pass Yards", 
+                    currentLine: "285.5",
+                    openLine: "292.5",
+                    movement: "-7.0",
+                    qualityScore: 68,
+                    decision: "wait",
+                    tags: ["public-money"],
+                    explanation: "Public piling in, line inflated - wait for reversal"
+                },
+                {
+                    player: "Tyreek Hill Rec Yards",
+                    currentLine: "92.5",
+                    openLine: "88.5", 
+                    movement: "+4.0",
+                    qualityScore: 45,
+                    decision: "avoid",
+                    tags: ["peak-line", "public-money"],
+                    explanation: "Peak public line, historically poor entry point"
+                }
+            ],
+            nba: [
+                // Add NBA sample data
+            ]
+        };
 
-  <div class="swipe-track-wrap">
-    <div class="swipe-track" id="swipe-track">
-      <!-- skeleton -->
-      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:160px"></div><div class="skel" style="height:16px;width:120px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
-      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:140px"></div><div class="skel" style="height:16px;width:110px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
-      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:170px"></div><div class="skel" style="height:16px;width:100px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
-      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:150px"></div><div class="skel" style="height:16px;width:130px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
-      <div class="pick-card-skeleton"><div class="skel" style="height:22px;width:155px"></div><div class="skel" style="height:16px;width:115px"></div><div class="skel" style="height:40px"></div><div class="skel" style="height:32px"></div></div>
-    </div>
-  </div>
+        document.querySelectorAll('.sport-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sport-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSport = btn.dataset.sport;
+                loadProps();
+            });
+        });
 
-  <div class="swipe-hint">
-    <span class="swipe-hint-text">&#x2190; Swipe for more</span>
-    <div class="swipe-dots" id="swipe-dots"></div>
-  </div>
+        function loadProps() {
+            document.getElementById('props-container').innerHTML = 
+                '<div class="empty-state"><p>Loading props...</p></div>';
+            
+            // Simulate API delay
+            setTimeout(() => {
+                displayProps(sampleProps[currentSport] || []);
+            }, 800);
+        }
 
-  <!-- SEE ALL TOGGLE -->
-
-  <div class="see-all-wrap">
-    <button class="see-all-btn" onclick="toggleFullProps(this)">
-      <span>See All Props</span>
-      <span class="see-all-chevron" id="see-all-chev">&#x25be;</span>
-    </button>
-  </div>
-
-  <!-- FULL PROPS LIST (collapsed by default) -->
-
-  <div class="full-props-wrap" id="full-props-wrap" style="display:none">
-    <div class="full-props-inner">
-      <div class="props-filter" style="margin-bottom:16px">
-        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-        <button class="filter-btn" onclick="setFilter('bet',this)">&#x1F7E2; Bet</button>
-        <button class="filter-btn" onclick="setFilter('pos',this)">+EV Only</button>
-        <button class="filter-btn" onclick="setFilter('skip',this)">&#x1F534; Skip</button>
-      </div>
-      <div class="props-status" id="props-status"><span class="spinner"></span>&nbsp;Loading&hellip;</div>
-      <div id="props-list"></div>
-    </div>
-  </div>
-</div>
-
-<!-- FEATURES -->
-
-<section class="features-section z1" id="features">
-  <div class="container">
-    <div class="features-header">
-      <p class="section-label">01 &mdash; Core Product</p>
-      <h2 class="section-title">Three Layers.<br>One Edge.</h2>
-      <p class="section-desc">PropShift is built around the full decision loop &mdash; not just data, but the call, the sizing, and the discipline to stay in the game.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-num">01 / 03</div>
-        <span class="feature-icon">🎯</span>
-        <div class="feature-name">Prop Sniper</div>
-        <span class="feature-tag tag-core">Core Engine</span>
-        <p class="feature-desc">Takes raw prop markets and gives you a clean verdict: bet it, skip it, and exactly what size.</p>
-        <ul class="feature-list">
-          <li>Fair line calculation</li><li>EV% on every prop</li><li>Best &amp; worst price detection</li>
-          <li>Line movement indicators</li><li>Stake suggestion (Kelly-lite)</li><li>Execution checklist</li>
-        </ul>
-      </div>
-      <div class="feature-card">
-        <div class="feature-num">02 / 03</div>
-        <span class="feature-icon">📊</span>
-        <div class="feature-name">Bankroll Copilot</div>
-        <span class="feature-tag tag-retention">Retention Engine</span>
-        <p class="feature-desc">Light-touch bet logging with smart guardrails that protect your bankroll long-term.</p>
-        <ul class="feature-list">
-          <li>Lightweight bet log</li><li>CLV tracking over time</li><li>Kelly-lite bet sizing</li>
-          <li>Tilt detection guardrails</li><li>Behavior nudges</li><li>Win/loss pattern insights</li>
-        </ul>
-      </div>
-      <div class="feature-card">
-        <div class="feature-num">03 / 03</div>
-        <span class="feature-icon">🔍</span>
-        <div class="feature-name">Transparency Layer</div>
-        <span class="feature-tag tag-moat">Brand Moat</span>
-        <p class="feature-desc">Exposes how books build lines and where the traps are set.</p>
-        <ul class="feature-list">
-          <li>Trap prop indicators</li><li>Sharp vs. public money tags</li><li>Cross-book discrepancy flags</li>
-          <li>Limits behavior heuristics</li><li>Steam move detection</li><li>Market signal explanations</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMPARISON -->
-
-<section class="comparison-section z1" id="compare">
-  <div class="container">
-    <p class="section-label">02 &mdash; Positioning</p>
-    <h2 class="section-title">Action Tool.<br>Not Research.</h2>
-    <p class="section-desc">PropShift is not trying to be OddsJam, Outlier, or Props.cash. Those are research tools. This is different.</p>
-    <div class="comparison-grid">
-      <div class="comp-card">
-        <div class="comp-name" style="color:var(--muted2)">OddsJam</div>
-        <div class="comp-type"><span style="color:var(--red)">✕</span> Arbitrage Tool</div>
-        <ul class="comp-items">
-          <li><span style="color:var(--muted)">✕</span> No decision logic</li>
-          <li><span style="color:var(--muted)">✕</span> No sizing guidance</li>
-          <li><span style="color:var(--muted)">✕</span> No bankroll protection</li>
-          <li><span style="color:var(--muted)">✕</span> No "why" context</li>
-        </ul>
-      </div>
-      <div class="comp-card">
-        <div class="comp-name" style="color:var(--muted2)">Outlier</div>
-        <div class="comp-type"><span style="color:var(--red)">✕</span> Analytics Tool</div>
-        <ul class="comp-items">
-          <li><span style="color:var(--muted)">✕</span> Data, no verdict</li>
-          <li><span style="color:var(--muted)">✕</span> No stake logic</li>
-          <li><span style="color:var(--muted)">✕</span> Complex, not daily</li>
-          <li><span style="color:var(--muted)">✕</span> No tilt guardrails</li>
-        </ul>
-      </div>
-      <div class="comp-card">
-        <div class="comp-name" style="color:var(--muted2)">Props.cash</div>
-        <div class="comp-type"><span style="color:var(--red)">✕</span> Research Tool</div>
-        <ul class="comp-items">
-          <li><span style="color:var(--muted)">✕</span> No EV calculation</li>
-          <li><span style="color:var(--muted)">✕</span> No execution layer</li>
-          <li><span style="color:var(--muted)">✕</span> No bankroll layer</li>
-          <li><span style="color:var(--muted)">✕</span> No transparency tags</li>
-        </ul>
-      </div>
-      <div class="comp-card highlight">
-        <div class="comp-name" style="color:var(--accent)">PropShift</div>
-        <div class="comp-type"><span style="color:var(--accent)">✓</span> Decision Engine</div>
-        <ul class="comp-items">
-          <li><span style="color:var(--accent)">✓</span> EV + verdict on every prop</li>
-          <li><span style="color:var(--accent)">✓</span> Kelly-calibrated sizing</li>
-          <li><span style="color:var(--accent)">✓</span> Bankroll + tilt protection</li>
-          <li><span style="color:var(--accent)">✓</span> Transparency on every line</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-
-<section class="pricing-section z1" id="pricing">
-  <div class="container">
-    <p class="section-label">03 &mdash; Pricing</p>
-    <h2 class="section-title">Built for<br>Daily Bettors.</h2>
-    <p class="section-desc">One subscription that pays for itself with one good call.</p>
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <div class="pricing-tier">Starter</div>
-        <div class="pricing-price"><sup>$</sup>0</div>
-        <div class="pricing-period">Free &mdash; always</div>
-        <ul class="pricing-features">
-          <li>3 prop picks/day</li><li>Basic EV display</li><li>Featured Pick of the Day</li>
-          <li class="dim">Full Prop Sniper</li><li class="dim">Kelly stake sizing</li><li class="dim">Transparency Layer</li>
-        </ul>
-        <a href="#" class="btn-secondary" style="width:100%;justify-content:center">Get Started</a>
-      </div>
-      <div class="pricing-card featured">
-        <div class="pricing-badge">Most Popular</div>
-        <div class="pricing-tier">Pro</div>
-        <div class="pricing-price"><sup>$</sup>19</div>
-        <div class="pricing-period">per month</div>
-        <ul class="pricing-features">
-          <li>Unlimited Prop Sniper</li><li>Full EV + fair line logic</li><li>Kelly-lite stake sizing</li>
-          <li>Transparency Layer</li><li>Bankroll Copilot</li><li>Tilt guardrails</li>
-        </ul>
-        <a href="#" class="btn-primary" style="width:100%;justify-content:center">Start Free Trial &rarr;</a>
-      </div>
-      <div class="pricing-card">
-        <div class="pricing-tier">Sharp</div>
-        <div class="pricing-price"><sup>$</sup>39</div>
-        <div class="pricing-period">per month</div>
-        <ul class="pricing-features">
-          <li>Everything in Pro</li><li>Multi-sport coverage</li><li>Priority line updates</li>
-          <li>Advanced CLV tracking</li><li>Steam move alerts</li><li>Early access to features</li>
-        </ul>
-        <a href="#" class="btn-secondary" style="width:100%;justify-content:center">Go Sharp</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-
-<section class="final-cta z1">
-  <div class="final-cta-glow"></div>
-  <span class="final-label">Ready to stop guessing?</span>
-  <h2 class="final-headline">Check PropShift<br>Before Every Prop.</h2>
-  <p class="final-sub">The terminal bettors open every morning. Built to make you smarter, faster, and more disciplined every single day.</p>
-  <a href="#pricing" class="btn-primary">Get Early Access &rarr;</a>
-</section>
-
-<!-- FOOTER -->
-
-<footer class="z1">
-  <div class="footer-logo">Prop<span>Shift</span></div>
-  <ul class="footer-links">
-    <li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Contact</a></li>
-  </ul>
-  <span class="footer-copy">&copy; 2026 PropShift. For entertainment purposes only. Must be 21+.</span>
-</footer>
-
-<script>
-const WORKER_URL = 'https://propshift.jlan79.workers.dev'
-
-const MARKET_LABELS = {
-  player_points:'Points', player_rebounds:'Rebounds', player_assists:'Assists',
-  player_threes:'3-Pointers', player_pass_yds:'Pass Yards',
-  player_rush_yds:'Rush Yards', player_reception_yds:'Rec Yards',
-  player_pass_tds:'Pass TDs', batter_hits:'Hits',
-  pitcher_strikeouts:'Strikeouts', batter_total_bases:'Total Bases',
-  player_shots_on_goal:'Shots on Goal',
-}
-
-const SPORT_LABELS = {
-  basketball_nba:'NBA', americanfootball_nfl:'NFL',
-  baseball_mlb:'MLB', icehockey_nhl:'NHL',
-}
-
-let allPropsData = []
-let propsCache = {}
-let currentFilter = 'all'
-let topFilter = 'all'
-let fullPropsOpen = false
-
-// ── MATH ─────────────────────────────────────────────────────────────
-function impliedProb(american) {
-  if(american == null) return 0.5
-  if(american > 0) return 100 / (american + 100)
-  return Math.abs(american) / (Math.abs(american) + 100)
-}
-function calcEV(myOdds, fairProb) {
-  const payout = myOdds > 0 ? myOdds/100 : 100/Math.abs(myOdds)
-  return ((fairProb * payout) - ((1-fairProb)*1)) * 100
-}
-function kellyStake(ev, prob) {
-  if(ev <= 0) return '0.0'
-  const b = ev/100/prob, q = 1-prob
-  return Math.max(0, Math.min((b*prob-q)/b*100, 5)).toFixed(1)
-}
-function fmtOdds(n) {
-  if(n == null) return '--'
-  return n > 0 ? '+'+Math.round(n) : ''+Math.round(n)
-}
-function convictionTier(ev) {
-  if(ev >= 8) return {badge:'🔥', cls:'fire', color:'#00e5a0', label:'FIRE'}
-  if(ev >= 3) return {badge:'⚡', cls:'bolt', color:'#f0b429', label:'EDGE'}
-  return {badge:'⭐', cls:'star', color:'#3b9eff', label:'LEAN'}
-}
-function getTrends(p) {
-  const trends = []
-  if(p.bestEV >= 8) trends.push('⬆')
-  const bookCount = Math.max(p.allOverOdds?.length||0, p.allUnderOdds?.length||0)
-  if(bookCount >= 3) trends.push('🏀')
-  if(p.bestOdds > 0) trends.push('⏱')
-  return trends
-}
-function getWhyText(p) {
-  const reasons = [
-    `Best available: ${fmtOdds(p.bestOdds)} at ${p.bestBook}.`,
-    `${p.bestSide} side shows +${p.bestEV.toFixed(1)}% edge vs fair line.`,
-    `Books disagree — line variance signals value on the ${p.bestSide}.`,
-    `Sharp money pattern detected across ${Math.max(p.allOverOdds?.length||0,p.allUnderOdds?.length||0)} books.`,
-    `${p.marketLabel} line set soft — EV gap vs vig-free probability.`,
-  ]
-  return reasons[Math.abs(p.player.length + (p.point||0)) % reasons.length]
-}
-
-// ── PROCESS DATA ──────────────────────────────────────────────────────
-function processWorkerData(data) {
-  const grouped = {}
-  ;(data.events||[]).forEach(game => {
-    const gameName = (game.away_team||'') + ' @ ' + (game.home_team||'')
-    const awayShort = (game.away_team||'').split(' ').pop()
-    const homeShort = (game.home_team||'').split(' ').pop()
-    ;(game.bookmakers||[]).forEach(bk => {
-      ;(bk.markets||[]).forEach(mkt => {
-        const marketLabel = MARKET_LABELS[mkt.key]||mkt.key
-        ;(mkt.outcomes||[]).forEach(outcome => {
-          const player = outcome.description||outcome.name
-          const side = outcome.name
-          const point = outcome.point
-          const key = `${player}||${mkt.key}||${point}||${gameName}`
-          if(!grouped[key]) {
-            grouped[key] = {
-              player, market:mkt.key, marketLabel, game:gameName,
-              awayShort, homeShort, point,
-              overOdds:null, overBook:'', underOdds:null, underBook:'',
-              allOverOdds:[], allUnderOdds:[],
-              sport: data.sport||'basketball_nba'
+        function displayProps(props) {
+            const container = document.getElementById('props-container');
+            
+            if (!props.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No props available</h3>
+                        <p>Check back later for ${currentSport.toUpperCase()} analysis</p>
+                    </div>
+                `;
+                return;
             }
-          }
-          const g = grouped[key]
-          if(side.toLowerCase().includes('over')) {
-            g.allOverOdds.push({book:bk.title, odds:outcome.price})
-            if(g.overOdds===null||outcome.price>g.overOdds){g.overOdds=outcome.price;g.overBook=bk.title}
-          } else {
-            g.allUnderOdds.push({book:bk.title, odds:outcome.price})
-            if(g.underOdds===null||outcome.price>g.underOdds){g.underOdds=outcome.price;g.underBook=bk.title}
-          }
-        })
-      })
-    })
-  })
 
-  return Object.values(grouped).map(p => {
-    const overProbs = p.allOverOdds.map(o=>impliedProb(o.odds))
-    const underProbs = p.allUnderOdds.map(o=>impliedProb(o.odds))
-    const avgOver = overProbs.length ? overProbs.reduce((a,b)=>a+b,0)/overProbs.length : 0.5
-    const avgUnder = underProbs.length ? underProbs.reduce((a,b)=>a+b,0)/underProbs.length : 0.5
-    const total = avgOver+avgUnder
-    const fairOver = total>0 ? avgOver/total : 0.5
-    const fairUnder = total>0 ? avgUnder/total : 0.5
-    const overEV = p.overOdds!=null ? calcEV(p.overOdds,fairOver) : null
-    const underEV = p.underOdds!=null ? calcEV(p.underOdds,fairUnder) : null
-    let bestSide,bestEV,bestOdds,bestBook,bestProb
-    if(overEV!=null&&(underEV==null||overEV>=underEV)){
-      bestSide='Over';bestEV=overEV;bestOdds=p.overOdds;bestBook=p.overBook;bestProb=fairOver
-    } else {
-      bestSide='Under';bestEV=underEV||0;bestOdds=p.underOdds;bestBook=p.underBook;bestProb=fairUnder
-    }
-    const kelly = kellyStake(bestEV,bestProb)
-    const verdict = bestEV>=5?'BET':bestEV>0?'LEAN':'SKIP'
-    const tags = []
-    if(Math.max(p.allOverOdds.length,p.allUnderOdds.length)>=3) tags.push({label:'Sharp',cls:'ptag-sharp'})
-    if(bestEV<-3) tags.push({label:'Trap',cls:'ptag-trap'})
-    if(bestEV>=8) tags.push({label:'Steam',cls:'ptag-steam'})
-    if(bestEV>=3) tags.push({label:'+EV',cls:'ptag-value'})
-    return {...p,overEV,underEV,bestSide,bestEV,bestOdds,bestBook,bestProb,kelly,verdict,tags,fairOver,fairUnder}
-  }).filter(p=>p.bestOdds!=null).sort((a,b)=>b.bestEV-a.bestEV)
-}
+            container.innerHTML = props.map(prop => `
+                <div class="prop-card">
+                    <div class="prop-header">
+                        <div class="player-name">${prop.player}</div>
+                        <div class="line-display">${prop.currentLine}</div>
+                    </div>
+                    
+                    <div class="decision-badge ${prop.decision}">
+                        ${prop.decision === 'bet-now' ? '🔥 BET NOW' : 
+                          prop.decision === 'wait' ? '⏳ WAIT' : '⚠️ AVOID'}
+                    </div>
+                    
+                    <div class="quality-score">
+                        <div class="score-circle score-${prop.qualityScore >= 90 ? '90' : prop.qualityScore >= 70 ? '70' : 'low'}">
+                            ${prop.qualityScore}
+                        </div>
+                        <div>
+                            <div>Quality Score</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">${prop.explanation}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="movement-info">
+                        <div>Open: ${prop.openLine} → Current: ${prop.currentLine} 
+                            <span style="color: ${prop.movement.startsWith('+') ? '#00d4aa' : '#ff6b6b'}">
+                                (${prop.movement})
+                            </span>
+                        </div>
+                        <div>
+                            ${prop.tags.map(tag => 
+                                `<span class="movement-tag ${tag}">#${tag.replace('-', ' ')}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-// ── SWIPE CARDS ───────────────────────────────────────────────────────
-function renderSwipeCards(props) {
-  const track = document.getElementById('swipe-track')
-  const dotsWrap = document.getElementById('swipe-dots')
-
-  // Apply top filter
-  let filtered = props
-  if(topFilter==='bet') filtered = props.filter(p=>p.verdict==='BET'||p.verdict==='LEAN')
-  else if(['nba','nfl','mlb','nhl'].includes(topFilter))
-    filtered = props.filter(p=>p.sport&&p.sport.includes(topFilter))
-
-  const cards = filtered.slice(0,10)
-
-  if(cards.length===0){
-    track.innerHTML = `<div style="padding:40px 24px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:1px">No props match this filter yet — check back after 10am ET</div>`
-    return
-  }
-
-  track.innerHTML = cards.map((p,i)=>{
-    const tier = convictionTier(p.bestEV)
-    const convPct = Math.min(99, Math.max(50, 50 + p.bestEV*3)).toFixed(0)
-    const barColor = tier.cls==='fire'?'var(--accent)':tier.cls==='bolt'?'var(--gold)':'var(--blue)'
-    const evStr = (p.bestEV>0?'+':'')+p.bestEV.toFixed(1)+'%'
-    const evCls = p.bestEV>=5?'ev-pos':p.bestEV>0?'ev-neutral':'ev-neg'
-    const trends = getTrends(p)
-    const why = getWhyText(p)
-    const sportLabel = SPORT_LABELS[p.sport]||'NBA'
-
-    return `<div class="pick-card ${tier.cls}" style="animation-delay:${i*0.06}s">
-      <div class="pick-card-accent" style="background:${barColor}"></div>
-      <div class="pick-card-top">
-        <div class="pick-card-player">${p.player}</div>
-        <div class="pick-card-badge">${tier.badge}</div>
-      </div>
-      <div class="pick-card-stat">${p.bestSide} ${p.point} ${p.marketLabel}</div>
-      <div class="pick-card-matchup">
-        <span>${p.awayShort}</span>
-        <span class="vs">vs</span>
-        <span>${p.homeShort}</span>
-        <span style="margin-left:4px;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:3px;font-size:9px">${sportLabel}</span>
-      </div>
-      <div class="conviction-wrap">
-        <div class="conviction-top">
-          <span class="conviction-label">Conviction</span>
-          <span class="conviction-pct" style="color:${barColor}">${convPct}%</span>
-        </div>
-        <div class="conviction-bar-bg">
-          <div class="conviction-bar-fill" style="width:0%;background:${barColor}" data-width="${convPct}"></div>
-        </div>
-      </div>
-      <div class="pick-card-why">${why}</div>
-      <div class="pick-card-trends">${trends.map(t=>`<span class="trend-tag">${t}</span>`).join('')}<span class="prop-row-ev ${evCls}" style="font-size:10px;padding:2px 7px">${evStr} EV</span></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted)">
-        <span>Best: <strong style="color:var(--text)">${fmtOdds(p.bestOdds)}</strong> ${p.bestBook}</span>
-        <span>${p.kelly}u Kelly</span>
-      </div>
-      <div class="pick-card-cta" onclick="handleAddToLineup(this,'${p.player} ${p.bestSide} ${p.point} ${p.marketLabel}')">+ Add to Lineup</div>
-    </div>`
-  }).join('')
-
-  // Animate conviction bars
-  setTimeout(()=>{
-    track.querySelectorAll('.conviction-bar-fill').forEach(bar=>{
-      bar.style.width = bar.dataset.width + '%'
-    })
-  }, 150)
-
-  // Dots
-  dotsWrap.innerHTML = cards.map((_,i)=>
-    `<div class="swipe-dot${i===0?' active':''}" id="dot-${i}"></div>`
-  ).join('')
-
-  // Dot sync on scroll
-  track.addEventListener('scroll', ()=>{
-    const idx = Math.round(track.scrollLeft / 296)
-    dotsWrap.querySelectorAll('.swipe-dot').forEach((d,i)=>{
-      d.classList.toggle('active', i===idx)
-    })
-  }, {passive:true})
-}
-
-// ── ADD TO LINEUP ─────────────────────────────────────────────────────
-let lineup = []
-function handleAddToLineup(btn, propStr) {
-  if(lineup.includes(propStr)){
-    btn.textContent = '+ Add to Lineup'
-    btn.style.background = 'rgba(0,229,160,.08)'
-    lineup = lineup.filter(p=>p!==propStr)
-  } else {
-    lineup.push(propStr)
-    btn.textContent = '✅ Added'
-    btn.style.background = 'rgba(0,229,160,.2)'
-  }
-  updateLineupBadge()
-}
-function updateLineupBadge(){
-  let badge = document.getElementById('lineup-badge')
-  if(!badge){
-    badge = document.createElement('div')
-    badge.id = 'lineup-badge'
-    badge.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--accent);color:#000;font-family:var(--display);font-size:14px;font-weight:800;letter-spacing:1px;padding:12px 20px;border-radius:8px;z-index:999;cursor:pointer;box-shadow:0 4px 20px rgba(0,229,160,.3);transition:all .2s'
-    badge.onclick = ()=>{ alert('Lineup: ' + lineup.join(' | ')) }
-    document.body.appendChild(badge)
-  }
-  if(lineup.length===0){ badge.style.display='none'; return }
-  badge.style.display='block'
-  badge.textContent = `📋 Lineup (${lineup.length})`
-}
-
-// ── FULL PROPS LIST ───────────────────────────────────────────────────
-function renderFullProps(props) {
-  const list = document.getElementById('props-list')
-  if(!props||props.length===0){
-    list.innerHTML = `<div class="props-empty"><div class="props-empty-icon">⏰</div><div class="props-empty-title">No Props Yet</div><div class="props-empty-sub">Check back after 10am ET</div></div>`
-    return
-  }
-  const filtered = currentFilter==='all'?props:
-    currentFilter==='bet'?props.filter(p=>p.verdict==='BET'):
-    currentFilter==='pos'?props.filter(p=>p.bestEV>0):
-    props.filter(p=>p.verdict==='SKIP')
-
-  if(filtered.length===0){
-    list.innerHTML=`<div class="props-empty"><div class="props-empty-icon">🔍</div><div class="props-empty-title">No Matches</div><div class="props-empty-sub">Try a different filter</div></div>`
-    return
-  }
-  list.innerHTML = filtered.slice(0,60).map((p,i)=>{
-    const evStr=(p.bestEV>0?'+':'')+p.bestEV.toFixed(1)+'%'
-    const evCls=p.bestEV>=5?'ev-pos':p.bestEV>0?'ev-neutral':'ev-neg'
-    const verdictCls=p.verdict==='BET'?'verdict-bet':p.verdict==='LEAN'?'verdict-lean':'verdict-skip'
-    const verdictIcon=p.verdict==='BET'?'✅':p.verdict==='LEAN'?'⚡':'❌'
-    const oddsClr=p.bestOdds>0?'var(--accent)':Math.abs(p.bestOdds)<=115?'var(--gold)':'var(--text)'
-    return `<div class="prop-row" style="animation-delay:${i*0.02}s">
-      <div class="prop-row-top">
-        <div class="prop-row-left">
-          <div class="prop-row-player">${p.player} ${p.bestSide} ${p.point} ${p.marketLabel}</div>
-          <div class="prop-row-game">${p.game} &nbsp;·&nbsp; <span style="color:var(--accent)">${SPORT_LABELS[p.sport]||''}</span></div>
-        </div>
-        <span class="prop-row-ev ${evCls}">${evStr} EV</span>
-      </div>
-      <div class="prop-row-mid">
-        <div class="prop-stat"><div class="prop-stat-label">Best Odds</div><div class="prop-stat-val" style="color:${oddsClr}">${fmtOdds(p.bestOdds)}</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.bestBook}</div></div>
-        <div class="prop-stat"><div class="prop-stat-label">Over ${p.point}</div><div class="prop-stat-val" style="color:${p.overOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(p.overOdds)}</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.overBook||'--'}</div></div>
-        <div class="prop-stat"><div class="prop-stat-label">Under ${p.point}</div><div class="prop-stat-val" style="color:${p.underOdds>0?'var(--accent)':'var(--text)'}">${fmtOdds(p.underOdds)}</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px">${p.underBook||'--'}</div></div>
-      </div>
-      <div class="prop-row-bottom">
-        <div class="prop-tags">${p.tags.map(t=>`<span class="ptag ${t.cls}">${t.label}</span>`).join('')}</div>
-        <span class="prop-verdict ${verdictCls}">${verdictIcon} ${p.verdict}${p.verdict!=='SKIP'?' — '+p.kelly+'u':''}</span>
-      </div>
-    </div>`
-  }).join('')
-}
-
-// ── CONTROLS ──────────────────────────────────────────────────────────
-function setTopFilter(filter, btn) {
-  topFilter = filter
-  document.querySelectorAll('.tpf-btn').forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active')
-  renderSwipeCards(allPropsData)
-}
-
-function setFilter(filter, btn) {
-  currentFilter = filter
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active')
-  renderFullProps(allPropsData)
-}
-
-function toggleFullProps(btn) {
-  const wrap = document.getElementById('full-props-wrap')
-  const chev = document.getElementById('see-all-chev')
-  fullPropsOpen = !fullPropsOpen
-  if(fullPropsOpen){
-    wrap.style.display = 'block'
-    chev.classList.add('open')
-    btn.querySelector('span').textContent = 'Hide All Props'
-    renderFullProps(allPropsData)
-  } else {
-    wrap.style.display = 'none'
-    chev.classList.remove('open')
-    btn.querySelector('span').textContent = 'See All Props'
-  }
-}
-
-// ── LOAD ──────────────────────────────────────────────────────────────
-async function loadAllProps() {
-  const status = document.getElementById('props-status')
-  const sports = ['basketball_nba','baseball_mlb','icehockey_nhl','americanfootball_nfl']
-
-  // Update date header
-  const now = new Date()
-  document.getElementById('picks-date').textContent =
-    now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}) +
-    ' · Updated ' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true})
-
-  let combined = []
-
-  for(const sport of sports){
-    try{
-      const res = await fetch(`${WORKER_URL}/?sport=${sport}`)
-      if(!res.ok) continue
-      const data = await res.json()
-      if(data.error||!data.events||data.events.length===0) continue
-      const props = processWorkerData({...data, sport})
-      combined = combined.concat(props)
-    }catch(e){ continue }
-  }
-
-  combined.sort((a,b)=>b.bestEV-a.bestEV)
-  allPropsData = combined
-
-  if(combined.length===0){
-    document.getElementById('swipe-track').innerHTML =
-      `<div style="padding:40px 24px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:1px;line-height:1.8">Props not yet posted for today<br>Check back after 10am ET</div>`
-    status.innerHTML = '⚠️ No props posted yet — check back after 10am ET'
-    return
-  }
-
-  renderSwipeCards(combined)
-  status.innerHTML = `✅ ${combined.length} props loaded across all sports — sorted by EV`
-
-  if(fullPropsOpen) renderFullProps(combined)
-}
-
-// ── INIT ──────────────────────────────────────────────────────────────
-loadAllProps()
-</script>
-
+        // Load initial data
+        loadProps();
+    </script>
 </body>
 </html>
